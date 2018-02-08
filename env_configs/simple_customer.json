@@ -1,0 +1,21 @@
+{
+    "environment" : "Customer",
+
+    "state_config" : {
+	"dtype" : "float",
+	"shape" : [2]
+    },
+
+    "action_config" : {
+	"dtype" : "int",
+	"shape" : [3]
+    },
+
+    "usage_fn" : {
+	"type" : "linear",
+	"a" : 10.0,
+	"b" : 50.0
+    },
+
+    "starting_quota" : 100.0
+}
