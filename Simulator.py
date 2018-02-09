@@ -8,9 +8,9 @@ import configs
 import environments
 
 # TODO: Belongs in a separate file/directory
-def make_linear_usage_fn (a, b):
+def make_linear_usage_fn (slope, offset):
     def usage_fn (step):
-        return a*step + b
+        return slope*step + offset
 
     return usage_fn
 
@@ -45,13 +45,12 @@ class Simulator (object):
         # Create usage_fn
         usage_fn_config = config.pop('usage_fn')
         make_usage_fn = self.usage_fns[usage_fn_config.pop('type')]
-        usage_fn = make_usage_fn(**usage_fn_config)
+        config['usage_fn'] = make_usage_fn(**usage_fn_config)
 
         # Return environment
         return env_fn (
             state_config=state_config,
             action_config=action_config,
-            usage_fn=usage_fn,
             # Pass remaining configurations as-is
             **config
         )

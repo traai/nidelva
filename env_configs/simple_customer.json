@@ -12,9 +12,9 @@
     },
 
     "usage_fn" : {
-	"type" : "linear",
-	"a" : 10.0,
-	"b" : 50.0
+	"type"   : "linear",
+	"slope"  : 10.0,
+	"offset" : 50.0
     },
 
     "starting_quota" : 100.0
