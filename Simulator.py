@@ -5,25 +5,10 @@ from __future__ import division
 from __future__ import print_function
 
 import configs
+import functions
 import environments
 
-# TODO: Belongs in a separate file/directory
-def make_linear_usage_fn (slope, offset):
-    def usage_fn (step):
-        return slope*step + offset
-
-    return usage_fn
-
 class Simulator (object):
-    env_fns = {
-        'Customer' : environments.CustomerEnvironment
-    }
-
-    # TODO: Belongs in a separate file/directory
-    usage_fns = {
-        'linear' : make_linear_usage_fn
-    }
-
     def __init__ (self):
         self.config = None
 
@@ -36,16 +21,20 @@ class Simulator (object):
         config = dict(self.config)
 
         # Get environment type
-        env_fn = self.env_fns[config.pop('environment')]
+        env_fn = environments.environment_fns[config.pop('environment')]
 
         # Set up data configs
         state_config = configs.DataConfig.from_dict(config.pop('state_config'))
         action_config = configs.DataConfig.from_dict(config.pop('action_config'))
 
-        # Create usage_fn
-        usage_fn_config = config.pop('usage_fn')
-        make_usage_fn = self.usage_fns[usage_fn_config.pop('type')]
-        config['usage_fn'] = make_usage_fn(**usage_fn_config)
+        # For _fn endings create the function and modify config in-place
+        for key in config:
+            if not key.endswith('_fn'):
+                continue
+
+            fn_config = config[key]
+            make_fn = functions.make_fns[fn_config.pop('type')]
+            config[key] = make_fn(**fn_config)
 
         # Return environment
         return env_fn (
