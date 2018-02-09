@@ -7,7 +7,7 @@ from __future__ import print_function
 import utility
 import numpy as np
 
-environment_fns = {}
+register = {}
 
 class Environment (object):
     """Base class for environments."""
@@ -21,7 +21,7 @@ class Environment (object):
     def step (self, action):
         raise NotImplementedError()
 
-@utility.registered(environment_fns, 'Customer')
+@utility.registered(register, 'Customer')
 class CustomerEnvironment (Environment):
     """Models a customer."""
     def __init__ (self, state_config, action_config, usage_fn, starting_quota):

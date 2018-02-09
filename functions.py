@@ -6,9 +6,9 @@ from __future__ import print_function
 
 import utility
 
-make_fns = {}
+register = {}
 
-@utility.registered(make_fns, 'linear')
+@utility.registered(register, 'linear')
 def make_linear_fn (slope, offset):
     """Creates a linear function y = slope*x + offset."""
 

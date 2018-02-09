@@ -21,7 +21,7 @@ class Simulator (object):
         config = dict(self.config)
 
         # Get environment type
-        env_fn = environments.environment_fns[config.pop('environment')]
+        env_fn = environments.register[config.pop('environment')]
 
         # Set up data configs
         state_config = configs.DataConfig.from_dict(config.pop('state_config'))
@@ -33,7 +33,7 @@ class Simulator (object):
                 continue
 
             fn_config = config[key]
-            make_fn = functions.make_fns[fn_config.pop('type')]
+            make_fn = functions.register[fn_config.pop('type')]
             config[key] = make_fn(**fn_config)
 
         # Return environment
