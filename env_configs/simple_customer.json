@@ -1,21 +1,16 @@
 {
     "environment" : "Customer",
 
-    "state_config" : {
-	"dtype" : "float",
-	"shape" : [2]
-    },
+    "n_up_actions" : 2,
+    "n_down_actions" : 1,
 
-    "action_config" : {
-	"dtype" : "int",
-	"shape" : [3]
-    },
+    "starting_usage" : 50.0,
+    "starting_quota" : 100.0,
+    "quota_increment" : 10.0,
 
-    "usage_fn" : {
-	"type"   : "linear",
-	"slope"  : 10.0,
-	"offset" : 50.0
-    },
-
-    "starting_quota" : 100.0
+    "usage_increment_fn" : {
+	"type"  : "normal",
+	"mean" : 1.0,
+	"standard_deviation" : 2.0
+    }
 }

@@ -24,8 +24,10 @@ class Simulator (object):
         env_fn = environments.register[config.pop('environment')]
 
         # Set up data configs
-        state_config = configs.DataConfig.from_dict(config.pop('state_config'))
-        action_config = configs.DataConfig.from_dict(config.pop('action_config'))
+        if 'state_config' in config:
+            config['state_config'] = configs.DataConfig.from_dict(config['state_config'])
+        if 'action_config' in config:
+            config['action_config'] = configs.DataConfig.from_dict(config['action_config'])
 
         # For _fn endings create the function and modify config in-place
         for key in config:
@@ -38,8 +40,5 @@ class Simulator (object):
 
         # Return environment
         return env_fn (
-            state_config=state_config,
-            action_config=action_config,
-            # Pass remaining configurations as-is
             **config
         )
