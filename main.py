@@ -6,12 +6,11 @@ from __future__ import print_function
 
 import configs
 import environments
-
-from Simulator import Simulator
+import Simulator
 
 def main ():
     # Rough usage sketch
-    simulator = Simulator()
+    simulator = Simulator.Simulator()
 
     with open('env_configs/simple_customer.json', 'r') as in_file:
         config = configs.Config.from_file(in_file)
@@ -26,11 +25,13 @@ def main ():
     print(environment.action_config)
 
     state = environment.reset()
-    for _ in range(3):
-        print('state={}'.format(state))
-
+    terminal = False
+    while not terminal:
         action = 0
+
         state, reward, terminal, info = environment.step(action)
+        print('state={}, reward={}, terminal={}'.format(state, reward, terminal))
+        # print('info={}'.format(info))
 
     return 0
 
