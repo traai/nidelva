@@ -1,0 +1,17 @@
+{
+    "type" : "environment.Customer",
+
+    "n_up_actions" : 2,
+    "n_down_actions" : 1,
+
+    "starting_usage" : 90.0,
+    "starting_quota" : 100.0,
+    "quota_increment" : 25.0,
+    "annoyance_per_miss" : 1.0,
+    "annoyance_threshold" : 5.0,
+    "overusage_threshold" : 5,
+    "terminal_annoyance" : 25,
+
+    "usage_increment" : -1.0,
+    "reward" : 1.0
+}

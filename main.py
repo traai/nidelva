@@ -4,36 +4,59 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import configs
-import environments
-import Simulator
+import json
+import nidelva
 
-def main ():
-    # Rough usage sketch
-    simulator = Simulator.Simulator()
+# Modify reward function at runtime
+@nidelva.export('reward_fn')
+def correct_action_reward (self):
+    # Reward correct action
+    return float(self.action == self.expected_action.value)
 
-    with open('env_configs/simple_customer.json', 'r') as in_file:
-        config = configs.Config.from_file(in_file)
+def main (FLAGS):
+    if FLAGS.debug:
+        nidelva.logging.set_verbosity(nidelva.logging.DEBUG)
 
-    simulator = simulator.load_config(config)
-    environment = simulator.build_environment()
+    with open(FLAGS.config, 'r') as in_file:
+        config = json.load(in_file)
 
-    # TODO: convenience function?
-    # environment = Simulator.load_file_and_build('env_configs/simple_customer.json')
+    # Modify reward function at runtime
+    config['reward'] = 'reward_fn'
 
-    print(environment.state_config)
-    print(environment.action_config)
+    # Fetch and initialize env from library
+    env = nidelva.fetch(config)
 
-    state = environment.reset()
-    terminal = False
-    while not terminal:
-        action = 0
+    print(env.state_config)
+    print(env.action_config)
 
-        state, reward, terminal, info = environment.step(action)
-        print('state={}, reward={}, terminal={}'.format(state, reward, terminal))
-        # print('info={}'.format(info))
+    state = env.reset()
+    step, action, terminal = 0, 0, False
+    while not terminal and step < FLAGS.max_steps:
+        state, reward, terminal, info = env.step(action)
+        step += 1
+
+        print(info)
 
     return 0
 
 if __name__ == '__main__':
-    exit(main())
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument (
+        '--debug', action='store_true',
+        help='Turn on debugging information.'
+    )
+
+    parser.add_argument (
+        '--config', type=str, default='env_configs/stable_noop.json',
+        metavar='file', help='Json file with environment config.'
+    )
+
+    parser.add_argument (
+        '--max_steps', type=int, default=1000, metavar='n',
+        help='Max numbers to run environment for.'
+    )
+
+    FLAGS = parser.parse_args()
+    exit(main(FLAGS))

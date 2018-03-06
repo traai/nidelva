@@ -4,12 +4,11 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import utility
 import numpy as np
 
-register = {}
+from nidelva import export
 
-@utility.registered(register, 'constant')
+@export('function', 'constant')
 def make_constant_fn (value):
     """Creates a constant value function."""
 
@@ -19,12 +18,12 @@ def make_constant_fn (value):
 
     return constant_fn
 
-@utility.registered(register, 'normal')
-def make_normal_fn (mean, standard_deviation):
+@export('function', 'normal')
+def make_normal_fn (mean, standard_deviation, random_state=np.random):
     """Creates a function returning samples from a normal distribution."""
 
     def normal_fn ():
         """Returns a sample from normal distribution."""
-        return np.random.normal(loc=mean, scale=standard_deviation)
+        return random_state.normal(loc=mean, scale=standard_deviation)
 
     return normal_fn
