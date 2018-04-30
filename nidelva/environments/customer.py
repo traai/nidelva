@@ -165,7 +165,7 @@ class CustomerEnvironment (Environment):
 
         # Update internal values
         self.step_counter.step()
-        self.usage.step()
+        self.usage.step(self)
         self.quota.step(self)
 
         # Get annoyed if agent doesn't give expected action

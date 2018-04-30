@@ -12,7 +12,7 @@ from nidelva import export
 def make_constant_fn (value):
     """Creates a constant value function."""
 
-    def constant_fn ():
+    def constant_fn (*args, **kwargs):
         """Function that returns a constant."""
         return value
 
@@ -22,7 +22,7 @@ def make_constant_fn (value):
 def make_normal_fn (mean, standard_deviation, random_state=np.random):
     """Creates a function returning samples from a normal distribution."""
 
-    def normal_fn ():
+    def normal_fn (*args, **kwargs):
         """Returns a sample from normal distribution."""
         return random_state.normal(loc=mean, scale=standard_deviation)
 

@@ -6,7 +6,7 @@ from __future__ import print_function
 
 from nidelva import export
 
-__all__ = ['Counter']
+__all__ = ['Value', 'Trigger', 'Counter']
 
 def _make_callable (obj):
     is_callable = hasattr(obj, '__call__')

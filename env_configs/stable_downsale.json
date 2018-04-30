@@ -12,6 +12,6 @@
     "overusage_threshold" : 5,
     "terminal_annoyance" : 25,
 
-    "usage_increment" : -1.0,
+    "usage_increment" : -0.1,
     "reward" : 1.0
 }
