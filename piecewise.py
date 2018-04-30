@@ -31,7 +31,7 @@ class PiecewiseIncrement (object):
         return env.step_counter.value >= self.last_step + self.num_steps
 
     def select_increment (self, env):
-        # Choose new increment
+        # Create a copy of the increments so we can potentially modify
         increments = self.increments[:]
 
         # If usage is 0, filter out any negative increments as we can't
@@ -85,6 +85,9 @@ def main (FLAGS):
         step += 1
 
         print(info)
+
+        # Instead of an intelligent agent we just cheat
+        # and look at the internals.
         action = info['expected_action']
 
     return 0

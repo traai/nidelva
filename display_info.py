@@ -13,9 +13,11 @@ def process_file (in_file):
     values = {}
 
     for line in in_file:
+        # Replace ' with " to make python dict string compatible with json
         line = line.replace('\'', '"')
         info = json.loads(line)
 
+        # Load for every key the values into a key-specific list
         for key in info:
             if key not in values:
                 values[key] = []
@@ -30,8 +32,11 @@ def main (FLAGS):
 
     plt.plot(values['step_counter'], values['usage'], label='usage')
     plt.plot(values['step_counter'], values['quota'], label='quota')
+    plt.xlabel('steps')
+    plt.ylabel('data')
     plt.ylim(0, None)
     plt.legend()
+    plt.grid(True)
     plt.show()
     return 0
 
