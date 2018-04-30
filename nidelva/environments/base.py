@@ -4,7 +4,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-__all__ = ['Environment']
+# FIXME: This gym import needs to be abstracted?
+# FIXME: Should be in some global configuration dict?
+try:
+    import gym as extern_gym
+except ImportError:
+    logging.debug('Failed to import gym')
+    extern_gym = None
+
+__all__ = ['Environment', 'extern_gym']
 
 class Environment (object):
     """Base class for environments."""

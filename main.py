@@ -29,6 +29,9 @@ def main (FLAGS):
     print(env.state_config)
     print(env.action_config)
 
+    print(env.observation_space)
+    print(env.action_space)
+
     state = env.reset()
     step, action, terminal = 0, 0, False
     while not terminal and step < FLAGS.max_steps:

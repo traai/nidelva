@@ -8,7 +8,8 @@ from nidelva import export
 
 from nidelva.callables.classes import Counter, Trigger
 from nidelva.configs import DataConfig
-from nidelva.environments import Environment
+from nidelva.environments import Environment, extern_gym
+from nidelva.platform import logging
 
 import numpy as np
 
@@ -40,6 +41,16 @@ class CustomerEnvironment (Environment):
             state_config=state_config,
             action_config=action_config
         )
+
+        # Set up OpenAI gym compatibility layer
+        if extern_gym is not None:
+            self.observation_space = extern_gym.spaces.Box (
+                low=np.array([0.0, 0.0, 0.0]),
+                high=np.array([1000.0, 1000.0, 1.0]),
+                dtype=state_config.dtype_numpy
+            )
+
+            self.action_space = extern_gym.spaces.Discrete(n_actions)
 
         # General parameters
         self.n_up_actions = n_up_actions
